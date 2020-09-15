@@ -1,0 +1,9 @@
+<h3> Create Question </h3>
+<%=form_for @question do |f| %>
+	<%=f.label 'Select Topic' %>
+	<%=f.select :topic_id, options_for_select(Topic.all.map{|t|[t.name,t.id]}) %>
+	<%=f.label "Question"%>
+	<%=f.text_field :name %>
+	<button type = "submit" class = "btn btn-primary">Submit</button> 
+<% end %>
+<%=link_to "Home", '/'%>

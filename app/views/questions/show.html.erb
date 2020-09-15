@@ -1,0 +1,13 @@
+<h3> <%=@question.name %> </h3>
+
+<% @answers.each do |answer| %>
+	<p><%=answer.name%></p>
+<%end%>
+
+<h3>Submit Answer</h3>
+<%= form_for :answer, url: question_answers_path(@question) do |f| %>
+	<%=f.text_area :name %>
+	<button type = "submit" class = "btn btn-primary">Submit</button> 
+<% end %>
+
+<%=link_to "Home", '/'%>

@@ -1,0 +1,9 @@
+<h3>Create Topic</h3>
+<%=form_for @topic do |form| %>
+	<%=form.label 'Topic'%>
+	<%=form.text_field :name %> <br>
+	<button type = "submit" class = "btn btn-primary">Submit</button> 
+<%end%>
+
+<%=link_to "Home", '/'%>
+

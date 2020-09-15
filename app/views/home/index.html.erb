@@ -1,0 +1,33 @@
+
+<h3>HOME PAGE</h3>
+
+<p class="notice"><%= notice %></p>
+
+<p class="alert"><%= alert %></p>
+   <%@errors ||= []%>
+
+<% if @errors.any? %>
+  <% @errors.full_messages.each do |message| %>
+  		<li><%= message %></li>
+  <% end %>
+<% end %>
+
+<% @questions.each do |question| %>
+	<p> Question:- <%= link_to "#{question.name}", question_url(question.id), class: 'question' %></p>
+	
+	<p>Topic:- <%=question.topic.name %> <%= link_to "follow", follow_topic_question_url(question.id), method: :post %></p>
+
+	<p> Created By:- <%= question.user.email%>  <%= link_to "follow_user", follow_user_question_url(question.id), method: :post %></p><br>
+
+<% end %>
+
+<%= link_to 'create question', new_question_path %>
+<%= link_to 'create topic', new_topic_path %>
+
+
+<br>
+<% unless current_user.present? %>
+    <%= link_to 'sign_in', new_user_session_url %>
+  <%else%>
+    <%= link_to 'sign_out', destroy_user_session_url, method: :delete %>
+  <%end%>

@@ -15,9 +15,9 @@
 <% @questions.each do |question| %>
 	<p> Question:- <%= link_to "#{question.name}", question_url(question.id), class: 'question' %></p>
 	
-	<p>Topic:- <%=question.topic.name %> <%= link_to "follow", follow_topic_question_url(question.id), method: :post %></p>
+	<p>Topic:- <%=question.topic.name %> <%= button_to "follow", "#{request.base_url}/questions/#{question.id}/follow_topic", method: :post %></p>
 
-	<p> Created By:- <%= question.user.email%>  <%= link_to "follow_user", follow_user_question_url(question.id), method: :post %></p><br>
+	<p> Created By:- <%= question.user.email%>  <%= button_to "follow_user", follow_user_question_url(question.id), method: :post %></p><br>
 
 <% end %>
 
@@ -27,7 +27,7 @@
 
 <br>
 <% unless current_user.present? %>
-    <%= link_to 'sign_in', new_user_session_url %>
+    <%= button_to 'sign_in', new_user_session_url %>
   <%else%>
-    <%= link_to 'sign_out', destroy_user_session_url, method: :delete %>
+    <%= button_to 'sign_out', destroy_user_session_url, method: :delete %>
   <%end%>

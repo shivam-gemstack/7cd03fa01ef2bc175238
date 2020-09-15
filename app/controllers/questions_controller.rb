@@ -1,7 +1,11 @@
 class QuestionsController < ApplicationController
 
 	def index 
-		@questions = current_user.questions
+		if current_user.present?
+			@questions = current_user.questions 
+		else
+			notice = "you have to log_in first"
+		end
 	end
 
 	def new
@@ -9,11 +13,15 @@ class QuestionsController < ApplicationController
 	end
 
 	def create
-		question = current_user.questions.new(question_params)
-		if question.save
-			redirect_to question_path(question), notice: 'Question created sucessfully'
+		if current_user.present?
+			question = current_user.questions.new(question_params)
+			if question.save
+				redirect_to question_path(question), notice: 'Question created sucessfully'
+			else
+				redirect_to '/', notice: 'Question not created'
+			end
 		else
-			redirect_to '/', notice: 'Question not created'
+			redirect_to '/', notice: 'you have to log_in first'
 		end
 	end
 

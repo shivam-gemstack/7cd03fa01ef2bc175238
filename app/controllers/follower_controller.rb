@@ -3,18 +3,24 @@ class FollowerController < ApplicationController
 	before_action :find_topic_id, only: :follow_topic
 
 	def follow_user
-		unless validate_following_user?
-			follower = @user.user_followers.create(follower_id: current_user.id)
-			notice = follower.errors.present? ? follower.errors.full_messages.join(', ') : 'Followed sucessfully'
+		if current_user.present?
+			unless validate_following_user?
+				follower = @user.user_followers.create(follower_id: current_user.id)
+				notice = follower.errors.present? ? follower.errors.full_messages.join(', ') : 'Followed sucessfully'
+			else
+				notice = 'Can not follow your self'
+			end
 		else
-			notice = 'Can not follow your self'
+			notice = "you have to log_in first"
 		end
 		redirect_to '/', notice: notice
 	end
 
 	def follow_topic
-		follower = current_user.topic_followers.create(topic_id: @topic_id)
-		redirect_to '/', notice: follower.errors.present? ? follower.errors.full_messages.join(', ') : 'Topic followed sucessfully'
+		follower = current_user.topic_followers.create(topic_id: @topic_id) if current_user.present?
+		notice = "you have to log_in first"
+		notice = follower.errors.present? ? follower.errors.full_messages.join(', ') : 'Topic followed sucessfully' if follower.present?
+		redirect_to '/', notice: notice
 	end
 
 	private
